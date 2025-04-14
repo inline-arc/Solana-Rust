@@ -1,5 +1,5 @@
-import DashboardFeature from '@/components/dashboard/dashboard-feature'
+import { FormCard } from "@/components/dashboard/dashboard-feature"
 
 export default function Page() {
-  return <DashboardFeature />
+  return <FormCard />
 }

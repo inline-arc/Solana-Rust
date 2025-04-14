@@ -1,31 +1,57 @@
-'use client'
+"use client"
 
-import { AppHero } from '../ui/ui-layout'
+import { useState } from "react"
+import { CalendarIcon } from "lucide-react"
+import { format } from "date-fns"
 
-const links: { label: string; href: string }[] = [
-  { label: 'Solana Docs', href: 'https://docs.solana.com/' },
-  { label: 'Solana Faucet', href: 'https://faucet.solana.com/' },
-  { label: 'Solana Cookbook', href: 'https://solanacookbook.com/' },
-  { label: 'Solana Stack Overflow', href: 'https://solana.stackexchange.com/' },
-  { label: 'Solana Developers GitHub', href: 'https://github.com/solana-developers/' },
-]
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { cn } from "@/lib/utils"
 
-export default function DashboardFeature() {
+export function FormCard() {
+  const [date, setDate] = useState<Date>()
+
   return (
-    <div>
-      <AppHero title="gm" subtitle="Say hi to your new Solana dApp." />
-      <div className="max-w-xl mx-auto py-6 sm:px-6 lg:px-8 text-center">
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle>Enter Details</CardTitle>
+        <CardDescription>Fill in the required information below.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
         <div className="space-y-2">
-          <p>Here are some helpful links to get you started.</p>
-          {links.map((link, index) => (
-            <div key={index}>
-              <a href={link.href} className="link" target="_blank" rel="noopener noreferrer">
-                {link.label}
-              </a>
-            </div>
-          ))}
+          <Label htmlFor="amount">Amount</Label>
+          <Input id="amount" type="number" placeholder="Enter amount" />
         </div>
-      </div>
-    </div>
+        <div className="space-y-2">
+          <Label htmlFor="title">Title</Label>
+          <Input id="title" placeholder="Enter title" />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="date">Date</Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                id="date"
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {date ? format(date, "PPP") : "Select a date"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+            </PopoverContent>
+          </Popover>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <Button className="w-full">Submit</Button>
+      </CardFooter>
+    </Card>
   )
 }
