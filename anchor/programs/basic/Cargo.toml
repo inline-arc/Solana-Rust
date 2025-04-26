@@ -18,5 +18,20 @@ default = []
 idl-build = ["anchor-lang/idl-build"]
 
 [dependencies]
-anchor-lang = "0.29.0"
-anchor-spl= "0.29.0"
+anchor-lang = "0.30.1"
+proc-macro2 = "=1.0.78"
+borsh = "=1.4.0"
+borsh-derive = "=1.4.0"
+syn = "=2.0.39"  
+
+
+[package.lints.rust.unexpected_cfgs]
+level = "warn"
+check-cfg = [
+    'cfg(target_os, values("solana"))',
+]
+
+[patch.crates-io]
+borsh = "=1.4.0"
+borsh-derive = "=1.4.0"
+
